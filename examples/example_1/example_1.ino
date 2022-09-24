@@ -20,7 +20,9 @@ void setup() {
   myMPU.setGyroRange(MPU6050_GYRO_RANGE_500DPS);
   Serial.print("Acceleration Range (0-3): ");
   Serial.println(myMPU.getAccelRange());
+  Serial.print("Temperature [°C]: ");
   Serial.println(myMPU.getOnlyTemperature());
+  Serial.println();
 }
 
 void loop(){
