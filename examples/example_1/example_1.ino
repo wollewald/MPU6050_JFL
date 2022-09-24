@@ -16,8 +16,8 @@ void setup() {
   }
   Serial.print("Who Am I: 0x");
   Serial.println(myMPU.whoAmI(),HEX);
-  myMPU.setAccelRange(MPU6050_ACCEL_RANGE_8G);
-  myMPU.setGyroRange(MPU6050_GYRO_RANGE_1000DPS);
+  myMPU.setAccelRange(MPU6050_ACCEL_RANGE_2G);
+  myMPU.setGyroRange(MPU6050_GYRO_RANGE_500DPS);
   Serial.print("Acceleration Range (0-3): ");
   Serial.println(myMPU.getAccelRange());
   Serial.println(myMPU.getOnlyTemperature());
