@@ -53,7 +53,7 @@ public:
     MPU6050_JFL(uint8_t addr);
     bool init();
     bool reset();
-	void sleep(bool sl);
+    void sleep(bool sl);
     uint8_t whoAmI();
     void setAccelRange(accel_range range);
     uint8_t getAccelRange();
