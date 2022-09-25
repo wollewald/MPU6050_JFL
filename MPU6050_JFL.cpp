@@ -10,7 +10,7 @@ bool MPU6050_JFL::init(){
     gyroRangeFactor = 1.0; 
     bool connected = !reset();
     delay(100); // MPU6050 needs 100 ms to reset
-    writeRegister(MPU6050_PWR_MGMT_1, 0x00); // disable sleep
+    sleep(false); // disable sleep
     delay(100); // give the device some time to wake up!
     return connected;
 }
@@ -18,6 +18,17 @@ bool MPU6050_JFL::init(){
 bool MPU6050_JFL::reset(){
     return writeRegister(MPU6050_PWR_MGMT_1, MPU6050_DEVICE_RESET);
 }
+
+void MPU6050_JFL::sleep(bool sl){
+	uint8_t regVal = readRegister(MPU6050_PWR_MGMT_1);
+	if(sl){
+		regVal |= MPU6050_DEVICE_SLEEP;
+	}
+	else{
+		regVal &= ~MPU6050_DEVICE_SLEEP;
+	}
+	writeRegister(MPU6050_PWR_MGMT_1, regVal);
+}	
 
 uint8_t MPU6050_JFL::whoAmI(){
     return readRegister(MPU6050_WHO_AM_I_MPU6050);

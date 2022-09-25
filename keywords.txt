@@ -21,6 +21,7 @@ xyzFloat	KEYWORD1
 
 init	KEYWORD2
 reset	KEYWORD2
+sleep	KEYWORD2
 whoAmI	KEYWORD2
 setAccelRange	KEYWORD2
 getAccelRange	KEYWORD2

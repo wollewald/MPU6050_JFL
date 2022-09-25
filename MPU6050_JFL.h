@@ -39,6 +39,7 @@ enum gyro_range{
 #define MPU6050_ACCEL_RANGE_MASK 0x18 // = 0b00011000
 #define MPU6050_GYRO_RANGE_MASK  0x18 // = 0b00011000
 #define MPU6050_DEVICE_RESET     0x80
+#define MPU6050_DEVICE_SLEEP	 0x40
 
 struct xyzFloat {
     float x;
@@ -52,6 +53,7 @@ public:
     MPU6050_JFL(uint8_t addr);
     bool init();
     bool reset();
+	void sleep(bool sl);
     uint8_t whoAmI();
     void setAccelRange(accel_range range);
     uint8_t getAccelRange();
