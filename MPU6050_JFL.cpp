@@ -20,15 +20,15 @@ bool MPU6050_JFL::reset(){
 }
 
 void MPU6050_JFL::sleep(bool sl){
-	uint8_t regVal = readRegister(MPU6050_PWR_MGMT_1);
-	if(sl){
-		regVal |= MPU6050_DEVICE_SLEEP;
-	}
-	else{
-		regVal &= ~MPU6050_DEVICE_SLEEP;
-	}
-	writeRegister(MPU6050_PWR_MGMT_1, regVal);
-}	
+    uint8_t regVal = readRegister(MPU6050_PWR_MGMT_1);
+    if(sl){
+        regVal |= MPU6050_DEVICE_SLEEP;
+    }
+    else{
+        regVal &= ~MPU6050_DEVICE_SLEEP;
+    }
+    writeRegister(MPU6050_PWR_MGMT_1, regVal);
+}   
 
 uint8_t MPU6050_JFL::whoAmI(){
     return readRegister(MPU6050_WHO_AM_I_MPU6050);
@@ -90,14 +90,6 @@ void MPU6050_JFL::getGyroscopeData(xyzFloat *gyro){
     gyro->z = ((int16_t)((rawData[4] << 8) | rawData[5]))/32768.0 * gyroRangeFactor;
 }   
 
-uint8_t MPU6050_JFL::writeRegister(uint8_t reg, uint8_t regValue){
-    Wire.beginTransmission(i2cAddress);
-    Wire.write(reg);
-    Wire.write(regValue);
-
-    return Wire.endTransmission();
-}
-
 void MPU6050_JFL::update(){
     readMultipleRegisters(MPU6050_ACCEL_XOUT_H, 14, allRawData);
 }
@@ -111,6 +103,13 @@ xyzFloat MPU6050_JFL::getGyroscopeDataFromAllRawData(){
     return gyro;
 }   
 
+uint8_t MPU6050_JFL::writeRegister(uint8_t reg, uint8_t regValue){
+    Wire.beginTransmission(i2cAddress);
+    Wire.write(reg);
+    Wire.write(regValue);
+
+    return Wire.endTransmission();
+}
 
 uint8_t MPU6050_JFL::readRegister(uint8_t reg){
     uint8_t data; 
