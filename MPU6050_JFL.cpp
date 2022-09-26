@@ -62,7 +62,7 @@ void MPU6050_JFL::setGyroRange(gyro_range range){
 
 uint8_t MPU6050_JFL::getAccelRange(){
     uint8_t regVal = readRegister(MPU6050_ACCEL_CONFIG);
-    regVal = regVal >> 3;
+    regVal = (regVal >> 3) & 0x03;
     return regVal;
 }
 
