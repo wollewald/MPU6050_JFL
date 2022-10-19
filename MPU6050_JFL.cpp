@@ -1,7 +1,9 @@
 #include <MPU6050_JFL.h>
 
-MPU6050_JFL::MPU6050_JFL(uint8_t addr){
-    i2cAddress = addr;
+MPU6050_JFL::MPU6050_JFL(const uint8_t addr)
+    : i2cAddress{addr}
+{
+    // empty
 }   
 
 bool MPU6050_JFL::init(){
@@ -50,13 +52,13 @@ void MPU6050_JFL::setAccelRange(accel_range range){
 void MPU6050_JFL::setGyroRange(gyro_range range){
     uint8_t regVal = readRegister(MPU6050_ACCEL_CONFIG);
     switch(range){
-        case MPU6050_GYRO_RANGE_250DPS:  gyroRangeFactor = 250.0;  break;
-        case MPU6050_GYRO_RANGE_500DPS:  gyroRangeFactor = 500.0;  break;
-        case MPU6050_GYRO_RANGE_1000DPS:  gyroRangeFactor = 1000.0;  break;
-        case MPU6050_GYRO_RANGE_2000DPS: gyroRangeFactor = 2000.0;  break;  
+        case gyro_range::MPU6050_GYRO_RANGE_250DPS:  gyroRangeFactor = 250.0;  break;
+        case gyro_range::MPU6050_GYRO_RANGE_500DPS:  gyroRangeFactor = 500.0;  break;
+        case gyro_range::MPU6050_GYRO_RANGE_1000DPS: gyroRangeFactor = 1000.0;  break;
+        case gyro_range::MPU6050_GYRO_RANGE_2000DPS: gyroRangeFactor = 2000.0;  break;  
     }
     regVal &= ~MPU6050_GYRO_RANGE_MASK;
-    regVal |= range;
+    regVal |= static_cast<uint8_t>(range);
     writeRegister(MPU6050_GYRO_CONFIG, regVal);
 }
 
@@ -68,7 +70,7 @@ uint8_t MPU6050_JFL::getAccelRange(){
 
 float MPU6050_JFL::getOnlyTemperature(){
     uint16_t rawTemp = read2Registers(MPU6050_TEMP_OUT_H);
-    float temp = ((int16_t)rawTemp)/340.0 + 36.53; // see RegMap page 30;
+    float temp = (static_cast<int16_t>(rawTemp))/340.0 + 36.53; // see RegMap page 30;
     return temp;
 }
 
@@ -76,19 +78,19 @@ xyzFloat MPU6050_JFL::getAccelerationData(){
     uint8_t rawData[6]; 
     xyzFloat accel;
     readMultipleRegisters(MPU6050_ACCEL_XOUT_H, 6, rawData);
-    accel.x = ((int16_t)((rawData[0] << 8) | rawData[1]))/32768.0 * accelRangeFactor;
-    accel.y = ((int16_t)((rawData[2] << 8) | rawData[3]))/32768.0 * accelRangeFactor;
-    accel.z = ((int16_t)((rawData[4] << 8) | rawData[5]))/32768.0 * accelRangeFactor;
+    accel.x = (static_cast<int16_t>((rawData[0] << 8) | rawData[1]))/32768.0 * accelRangeFactor;
+    accel.y = (static_cast<int16_t>((rawData[2] << 8) | rawData[3]))/32768.0 * accelRangeFactor;
+    accel.z = (static_cast<int16_t>((rawData[4] << 8) | rawData[5]))/32768.0 * accelRangeFactor;
     return accel;
 }   
 
 void MPU6050_JFL::getGyroscopeData(xyzFloat *gyro){
     uint8_t rawData[6]; 
     readMultipleRegisters(MPU6050_GYRO_XOUT_H, 6, rawData);
-    gyro->x = ((int16_t)((rawData[0] << 8) | rawData[1]))/32768.0 * gyroRangeFactor;
-    gyro->y = ((int16_t)((rawData[2] << 8) | rawData[3]))/32768.0 * gyroRangeFactor;
-    gyro->z = ((int16_t)((rawData[4] << 8) | rawData[5]))/32768.0 * gyroRangeFactor;
-}   
+    gyro->x = (static_cast<int16_t>((rawData[0] << 8) | rawData[1]))/32768.0 * gyroRangeFactor;
+    gyro->y = (static_cast<int16_t>((rawData[2] << 8) | rawData[3]))/32768.0 * gyroRangeFactor;
+    gyro->z = (static_cast<int16_t>((rawData[4] << 8) | rawData[5]))/32768.0 * gyroRangeFactor;
+}         
 
 void MPU6050_JFL::update(){
     readMultipleRegisters(MPU6050_ACCEL_XOUT_H, 14, allRawData);
@@ -97,9 +99,9 @@ void MPU6050_JFL::update(){
 xyzFloat MPU6050_JFL::getGyroscopeDataFromAllRawData(){
     xyzFloat gyro;
     readMultipleRegisters(MPU6050_GYRO_XOUT_H, 6, allRawData);
-    gyro.x = ((int16_t)((allRawData[8] << 8) | allRawData[9]))/32768.0 * gyroRangeFactor;
-    gyro.y = ((int16_t)((allRawData[10] << 8) | allRawData[11]))/32768.0 * gyroRangeFactor;
-    gyro.z = ((int16_t)((allRawData[12] << 8) | allRawData[13]))/32768.0 * gyroRangeFactor;
+    gyro.x = ((static_cast<int16_t>(allRawData[8] << 8) | allRawData[9]))/32768.0 * gyroRangeFactor;
+    gyro.y = ((static_cast<int16_t>(allRawData[10] << 8) | allRawData[11]))/32768.0 * gyroRangeFactor;
+    gyro.z = ((static_cast<int16_t>(allRawData[12] << 8) | allRawData[13]))/32768.0 * gyroRangeFactor;
     return gyro;
 }   
 
@@ -116,7 +118,7 @@ uint8_t MPU6050_JFL::readRegister(uint8_t reg){
     Wire.beginTransmission(i2cAddress);         
     Wire.write(reg);                    
     Wire.endTransmission(false);           
-    Wire.requestFrom(i2cAddress, (uint8_t)1);  
+    Wire.requestFrom(i2cAddress, static_cast<uint8_t>(1));  
     data = Wire.read();                      
     return data;                             
 }
@@ -127,7 +129,7 @@ uint16_t MPU6050_JFL::read2Registers(uint8_t reg){
     Wire.beginTransmission(i2cAddress);         
     Wire.write(reg);                    
     Wire.endTransmission(false);           
-    Wire.requestFrom(i2cAddress, (uint8_t)2);  
+    Wire.requestFrom(i2cAddress, static_cast<uint8_t>(2));  
     MSB = Wire.read(); 
     LSB = Wire.read();
     
