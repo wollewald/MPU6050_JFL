@@ -3,6 +3,8 @@
 #define I2C_ADDRESS 0x68
 
 MPU6050_JFL myMPU = MPU6050_JFL(I2C_ADDRESS);
+// alternative: 
+//MPU6050_JFL myMPU = MPU6050_JFL();
 
 void setup() {
   Wire.begin();
@@ -17,7 +19,7 @@ void setup() {
   Serial.print("Who Am I: 0x");
   Serial.println(myMPU.whoAmI(),HEX);
   myMPU.setAccelRange(MPU6050_ACCEL_RANGE_2G);
-  myMPU.setGyroRange(MPU6050_GYRO_RANGE_500DPS);
+  myMPU.setGyroRange(gyro_range::MPU6050_GYRO_RANGE_500DPS);
   Serial.print("Acceleration Range (0-3): ");
   Serial.println(myMPU.getAccelRange());
   Serial.print("Temperature [°C]: ");
