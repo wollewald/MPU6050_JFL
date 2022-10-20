@@ -12,7 +12,7 @@ void setup() {
     Serial.println("MPU6050 not connected");
     while(1); 
   }
-  myMPU.setGyroRange(gyro_range::MPU6050_GYRO_RANGE_500DPS);
+  myMPU.setGyroRange(GyroRange::DPS500);
 }
 
 void loop(){
