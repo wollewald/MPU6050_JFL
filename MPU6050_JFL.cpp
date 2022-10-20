@@ -49,13 +49,13 @@ void MPU6050_JFL::setAccelRange(accel_range range){
     writeRegister(MPU6050_ACCEL_CONFIG, regVal);
 }
 
-void MPU6050_JFL::setGyroRange(gyro_range range){
+void MPU6050_JFL::setGyroRange(GyroRange range){
     uint8_t regVal = readRegister(MPU6050_ACCEL_CONFIG);
     switch(range){
-        case gyro_range::MPU6050_GYRO_RANGE_250DPS:  gyroRangeFactor = 250.0;  break;
-        case gyro_range::MPU6050_GYRO_RANGE_500DPS:  gyroRangeFactor = 500.0;  break;
-        case gyro_range::MPU6050_GYRO_RANGE_1000DPS: gyroRangeFactor = 1000.0;  break;
-        case gyro_range::MPU6050_GYRO_RANGE_2000DPS: gyroRangeFactor = 2000.0;  break;  
+        case GyroRange::DPS250:  gyroRangeFactor = 250.0;  break;
+        case GyroRange::DPS500:  gyroRangeFactor = 500.0;  break;
+        case GyroRange::DPS1000: gyroRangeFactor = 1000.0;  break;
+        case GyroRange::DPS2000: gyroRangeFactor = 2000.0;  break;  
     }
     regVal &= ~MPU6050_GYRO_RANGE_MASK;
     regVal |= static_cast<uint8_t>(range);
@@ -90,7 +90,7 @@ void MPU6050_JFL::getGyroscopeData(xyzFloat *gyro){
     gyro->x = (static_cast<int16_t>((rawData[0] << 8) | rawData[1]))/32768.0 * gyroRangeFactor;
     gyro->y = (static_cast<int16_t>((rawData[2] << 8) | rawData[3]))/32768.0 * gyroRangeFactor;
     gyro->z = (static_cast<int16_t>((rawData[4] << 8) | rawData[5]))/32768.0 * gyroRangeFactor;
-}         
+}  
 
 void MPU6050_JFL::update(){
     readMultipleRegisters(MPU6050_ACCEL_XOUT_H, 14, allRawData);

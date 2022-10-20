@@ -11,11 +11,11 @@ enum accel_range{
     MPU6050_ACCEL_RANGE_16G
 };
 
-enum class gyro_range{
-    MPU6050_GYRO_RANGE_250DPS = 0x00,
-    MPU6050_GYRO_RANGE_500DPS = 0x08,
-    MPU6050_GYRO_RANGE_1000DPS = 0x10,
-    MPU6050_GYRO_RANGE_2000DPS = 0x18
+enum class GyroRange : uint8_t{
+    DPS250  = 0x00,
+    DPS500  = 0x08,
+    DPS1000 = 0x10,
+    DPS2000 = 0x18
 };
 
 constexpr uint8_t MPU6050_GYRO_CONFIG       {0x1B};
@@ -51,13 +51,14 @@ class MPU6050_JFL
 {
 public:
     MPU6050_JFL(const uint8_t addr = 0x68);
+        
     bool init();
     bool reset();
     void sleep(bool sl);
     uint8_t whoAmI();
     void setAccelRange(accel_range range);
     uint8_t getAccelRange();
-    void setGyroRange(gyro_range range);
+    void setGyroRange(GyroRange range);
     float getOnlyTemperature();
     xyzFloat getAccelerationData();
     void getGyroscopeData(xyzFloat *gyro);
