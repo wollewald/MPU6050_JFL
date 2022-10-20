@@ -33,7 +33,7 @@ void MPU6050_JFL::sleep(bool sl){
 }   
 
 uint8_t MPU6050_JFL::whoAmI(){
-    return readRegister(MPU6050_WHO_AM_I_MPU6050);
+    return readRegister(MPU6050_WHO_AM_I);
 }
 
 void MPU6050_JFL::setAccelRange(accel_range range){
