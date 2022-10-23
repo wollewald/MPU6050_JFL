@@ -1,30 +1,5 @@
 #include <MPU6050_JFL.h>
 
-namespace{
-    constexpr uint8_t MPU6050_GYRO_CONFIG       {0x1B};
-    constexpr uint8_t MPU6050_ACCEL_CONFIG      {0x1C};
-    constexpr uint8_t MPU6050_ACCEL_XOUT_H      {0x3B};
-    constexpr uint8_t MPU6050_ACCEL_XOUT_L      {0x3C};
-    constexpr uint8_t MPU6050_ACCEL_YOUT_H      {0x3D};
-    constexpr uint8_t MPU6050_ACCEL_YOUT_L      {0x3E};
-    constexpr uint8_t MPU6050_ACCEL_ZOUT_H      {0x3F};
-    constexpr uint8_t MPU6050_ACCEL_ZOUT_L      {0x40};
-    constexpr uint8_t MPU6050_TEMP_OUT_H        {0x41};
-    constexpr uint8_t MPU6050_TEMP_OUT_L        {0x42};
-    constexpr uint8_t MPU6050_GYRO_XOUT_H       {0x43};
-    constexpr uint8_t MPU6050_GYRO_XOUT_L       {0x44};
-    constexpr uint8_t MPU6050_GYRO_YOUT_H       {0x45};
-    constexpr uint8_t MPU6050_GYRO_YOUT_L       {0x46};
-    constexpr uint8_t MPU6050_GYRO_ZOUT_H       {0x47};
-    constexpr uint8_t MPU6050_GYRO_ZOUT_L       {0x48};
-    constexpr uint8_t MPU6050_PWR_MGMT_1        {0x6B}; // Device defaults to the SLEEP mode
-    constexpr uint8_t MPU6050_WHO_AM_I          {0x75}; // Should return 0x68
-    constexpr uint8_t MPU6050_ACCEL_RANGE_MASK  {0x18}; // = 0b00011000
-    constexpr uint8_t MPU6050_GYRO_RANGE_MASK   {0x18}; // = 0b00011000
-    constexpr uint8_t MPU6050_DEVICE_RESET      {0x80};
-    constexpr uint8_t MPU6050_DEVICE_SLEEP      {0x40};
-}
-
 MPU6050_JFL::MPU6050_JFL(const uint8_t addr)
     : i2cAddress{addr}
 {
