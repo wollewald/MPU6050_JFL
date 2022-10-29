@@ -50,7 +50,8 @@ public:
     static constexpr uint8_t MPU6050_DEVICE_RESET      {0x80};
     static constexpr uint8_t MPU6050_DEVICE_SLEEP      {0x40};
     
-    MPU6050_JFL(const uint8_t addr = 0x68);
+    MPU6050_JFL(const uint8_t addr = 0x68)
+    : i2cAddress{addr} {/* empty */}   
         
     bool init();
     bool reset();

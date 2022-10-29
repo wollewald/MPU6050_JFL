@@ -1,11 +1,5 @@
 #include <MPU6050_JFL.h>
 
-MPU6050_JFL::MPU6050_JFL(const uint8_t addr)
-    : i2cAddress{addr}
-{
-    // empty
-}   
-
 bool MPU6050_JFL::init(){
     //Wire.setWireTimeout();
     accelRangeFactor = 1.0;
