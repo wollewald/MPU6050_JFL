@@ -26,7 +26,7 @@ void MPU6050_JFL::sleep(bool sl){
     writeRegister(MPU6050_PWR_MGMT_1, regVal);
 }   
 
-uint8_t MPU6050_JFL::whoAmI(){
+uint8_t MPU6050_JFL::whoAmI() {
     return readRegister(MPU6050_WHO_AM_I);
 }
 
@@ -70,7 +70,6 @@ float MPU6050_JFL::getOnlyTemperature(){
 
 xyzFloat MPU6050_JFL::getAccelerationData(){
     uint8_t rawData[6]; 
-    xyzFloat accel;
     readMultipleRegisters(MPU6050_ACCEL_XOUT_H, 6, rawData);
     accel.x = (static_cast<int16_t>((rawData[0] << 8) | rawData[1]))/32768.0 * accelRangeFactor;
     accel.y = (static_cast<int16_t>((rawData[2] << 8) | rawData[3]))/32768.0 * accelRangeFactor;
@@ -90,13 +89,11 @@ void MPU6050_JFL::update(){
     readMultipleRegisters(MPU6050_ACCEL_XOUT_H, 14, allRawData);
 }
 
-xyzFloat MPU6050_JFL::getGyroscopeDataFromAllRawData(){
-    xyzFloat gyro;
+void MPU6050_JFL::getGyroscopeDataFromAllRawData(xyzFloat *gyro){
     readMultipleRegisters(MPU6050_GYRO_XOUT_H, 6, allRawData);
-    gyro.x = ((static_cast<int16_t>(allRawData[8] << 8) | allRawData[9]))/32768.0 * gyroRangeFactor;
-    gyro.y = ((static_cast<int16_t>(allRawData[10] << 8) | allRawData[11]))/32768.0 * gyroRangeFactor;
-    gyro.z = ((static_cast<int16_t>(allRawData[12] << 8) | allRawData[13]))/32768.0 * gyroRangeFactor;
-    return gyro;
+    gyro->x = ((static_cast<int16_t>(allRawData[8] << 8) | allRawData[9]))/32768.0 * gyroRangeFactor;
+    gyro->y = ((static_cast<int16_t>(allRawData[10] << 8) | allRawData[11]))/32768.0 * gyroRangeFactor;
+    gyro->z = ((static_cast<int16_t>(allRawData[12] << 8) | allRawData[13]))/32768.0 * gyroRangeFactor;
 }   
 
 uint8_t MPU6050_JFL::writeRegister(uint8_t reg, uint8_t regValue){

@@ -64,13 +64,14 @@ class MPU6050_JFL
         xyzFloat getAccelerationData();
         void getGyroscopeData(xyzFloat *gyro);
         void update();
-        xyzFloat getGyroscopeDataFromAllRawData();
+        void getGyroscopeDataFromAllRawData(xyzFloat *gyro);
             
     protected:
         uint8_t i2cAddress;
         float accelRangeFactor;
         float gyroRangeFactor;
-        uint8_t allRawData[14];
+        xyzFloat accel;
+		uint8_t allRawData[14];
         uint8_t writeRegister(uint8_t reg, uint8_t regValue);
         uint8_t readRegister(uint8_t reg);
         uint16_t read2Registers(uint8_t reg);
