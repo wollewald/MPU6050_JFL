@@ -17,7 +17,8 @@ void setup() {
 
 void loop(){
   myMPU.update();
-  xyzFloat gyr = myMPU.getGyroscopeDataFromAllRawData();
+  xyzFloat gyr;
+  myMPU.getGyroscopeDataFromAllRawData(&gyr);
  
   Serial.print("gyr_x: ");
   Serial.print(gyr.x); Serial.print('\t');
